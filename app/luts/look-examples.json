@@ -41,7 +41,7 @@
     "title": "砖墙与绿门",
     "scene": "复古街拍",
     "note": "看砖红和松绿色的饱和度变化。",
-    "strength": 75
+    "strength": 100
   },
   "sienna-glow": {
     "title": "陶作工坊",
@@ -59,14 +59,14 @@
     "title": "海湾斑驳日光",
     "scene": "自然风景",
     "note": "看受光黄绿、阴影蓝绿和水面反光。",
-    "strength": 75,
+    "strength": 100,
     "study": "s1"
   },
   "amber-grain": {
     "title": "旧剧院一角",
     "scene": "暖光建筑",
     "note": "看金色灯点与红绒座椅的反差。",
-    "strength": 75
+    "strength": 100
   },
   "fresh-moss": {
     "title": "苔石溪涧",
@@ -90,7 +90,7 @@
     "title": "灯下的夜摊",
     "scene": "夜景人文",
     "note": "看冷暗背景与暖灯下的肤色。",
-    "strength": 75,
+    "strength": 100,
     "study": "s6"
   },
   "harbor-gray": {
@@ -102,8 +102,8 @@
   "lucid-lake": {
     "title": "清晨湖面",
     "scene": "自然风景",
-    "note": "看蓝绿色倒影和水面高光。",
-    "strength": 75
+    "note": "先看船旁的蓝水，再看黄船和雪山。色彩分开之后，船更容易被看到。",
+    "strength": 100
   },
   "ivory-day": {
     "title": "象牙白廊下",
@@ -115,7 +115,7 @@
     "title": "荷瓣透光",
     "scene": "微距花卉",
     "note": "看粉红花瓣受光面与绿叶阴影。",
-    "strength": 85,
+    "strength": 100,
     "study": "s8"
   },
   "mint-haze": {
@@ -128,7 +128,7 @@
     "title": "南方柠檬树",
     "scene": "日间自然",
     "note": "看柠檬黄、叶绿和石墙的层次。",
-    "strength": 75
+    "strength": 100
   },
   "honey-hour": {
     "title": "金色公路旁",
@@ -153,7 +153,7 @@
     "title": "街角树荫",
     "scene": "日间街景",
     "note": "看叶绿、白墙与阴影的边界。",
-    "strength": 75
+    "strength": 100
   },
   "wet-pavement": {
     "title": "雨后巷口",
@@ -165,7 +165,7 @@
     "title": "桃色海风",
     "scene": "日落旅行",
     "note": "看淡桃高光与蓝灰远景。",
-    "strength": 75
+    "strength": 100
   },
   "quiet-wheat": {
     "title": "麦田侧光",
@@ -188,7 +188,7 @@
   "mirror-light": {
     "title": "自然光校准台",
     "scene": "颜色校准",
-    "note": "比较同一批中性色和有色物件。",
+    "note": "用白台面检查色彩是否偏暖或偏冷。这个滤镜的调整很轻，适合做参照。",
     "strength": 100
   },
   "terracotta-face": {
@@ -238,7 +238,7 @@
     "title": "蓝绿地铁出口",
     "scene": "青橙街拍",
     "note": "看青绿暗部与暖肤色的分离。",
-    "strength": 65
+    "strength": 100
   },
   "nordic": {
     "title": "北岸冬日",
@@ -262,7 +262,7 @@
     "title": "湿润蕨林",
     "scene": "森系自然",
     "note": "看蕨叶黄绿和深绿的区分。",
-    "strength": 90
+    "strength": 100
   },
   "baroque": {
     "title": "深柜银器",
@@ -281,13 +281,14 @@
     "title": "夜间直闪人像",
     "scene": "CCD 直闪",
     "note": "看闪光下肤色、白衣和硬影的边缘。",
-    "strength": 65
+    "strength": 100
   },
   "cream-editorial": {
-    "title": "浅色奶油静物",
+    "title": "雾窗边的白瓷和山茶",
     "scene": "奶油色",
-    "note": "暗面抬起后，白瓷、米白布料和奶油的细节集中在浅色区域。",
-    "strength": 90
+    "note": "先看瓷壶背光的一侧，再看窗边水珠和布纹。阴影更浅了，几种不同的白还分得开。",
+    "strength": 90,
+    "originalFile": "original-window-still-life.webp"
   },
   "mocha-editorial": {
     "title": "棕调雨后街角",

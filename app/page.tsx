@@ -1,8 +1,11 @@
 'use client';
 import {useState,useEffect,useRef,useCallback,useMemo,type ChangeEvent,type ReactNode} from 'react';
-import {Aperture,PanelsTopLeft,Layers3,CircleHelp,Upload,Maximize,Minimize,Columns2,SlidersHorizontal,Check,Sparkles,Download,RotateCcw,Activity,X,ChevronsLeftRight,Film,ImagePlus,FolderOpen,Focus,Scan,ChevronRight} from 'lucide-react';
+import {Aperture,PanelsTopLeft,Layers3,CircleHelp,Upload,Maximize,Minimize,Columns2,SlidersHorizontal,Check,Sparkles,Download,RotateCcw,Activity,X,ChevronsLeftRight,Film,Camera,ImagePlus,FolderOpen,Focus,Scan,ChevronRight} from 'lucide-react';
 import {Gallery} from './gallery';
 import {exampleAsset,lookExample,LookGallery,LookStudy,type LookExample} from './look-gallery';
+import {lookDescription} from './luts/look-copy';
+import {realExamples} from './luts/examples';
+import {CameraPreview,type CameraLook} from './camera-preview';
 import {authoredLooks,baseRecipes,socialRecipes,recipes,defaults,editingPrompt,type Recipe,type Adjust} from './film';
 import {canvasOf,currentCube,grade,inspect} from './pixels';
 import {loadLookBank} from './luts/bank';
@@ -18,11 +21,12 @@ import {sampleToneIndex,ToneLibrary,type ToneSelection} from './tone-library';
 import {isToneId} from './luts/tones';
 type DemoSelection={look:Recipe;sample:LookExample};
 type Photo={canvas:HTMLCanvasElement;small:HTMLCanvasElement;file:string;width:number;height:number;sample:boolean;sourceOnly:boolean;demo?:DemoSelection};
-type Dialog='help'|'generation'|'inspiration'|'look-study'|null;
+type Dialog='help'|'generation'|'inspiration'|'look-study'|'camera'|null;
 type Pair='original-lut'|'original-ai'|'lut-ai';
 type ReferencePhoto={canvas:HTMLCanvasElement;thumbnail:string;name:string};
 const familyFilters = [
   {id:'all',name:'全部收录'},
+  {id:'real',name:'实拍样片'},
   {id:'social',name:'社媒灵感'},
   {id:'professional',name:'专业影调'},
   ...authoredLooks.filter(look=>look.featured).map(look=>({id:look.family!,name:look.familyName!})),
@@ -30,6 +34,7 @@ const familyFilters = [
   {id:'classic',name:'基础滤镜'},
 ];
 const picture='alpine-source.jpg';
+const featuredExamples=['neon-diary','cream-editorial','noon-in-color','mono'];
 function saveBlob(blob:Blob,name:string){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
 function jpeg(src:HTMLCanvasElement){return new Promise<Blob>((ok,fail)=>src.toBlob(blob=>blob?ok(blob):fail(Error('图像导出失败。')),'image/jpeg',.94));}
 function Modal({name,close,children,wide=false}:{name:string;close:()=>void;children:ReactNode;wide?:boolean}){
@@ -54,6 +59,8 @@ export default function Studio(){
  const [libraryFamily,setLibraryFamily]=useState('all');
  const [libraryTone,setLibraryTone]=useState<ToneSelection|null>(null);
  const [studyLook,setStudyLook]=useState<Recipe|null>(null);
+ const [studyFullscreen,setStudyFullscreen]=useState(false);
+ const [studySample,setStudySample]=useState<LookExample|null>(null);
  const [studioOpened,setStudioOpened]=useState(false);
  const manualLook=useRef(false);
  const initialStudioLoad=useRef(false);
@@ -71,9 +78,9 @@ export default function Studio(){
  },[photo,dialog,recipe,adj]);
  const say=useCallback((message:string)=>{setNotice(message);if(timer.current)clearTimeout(timer.current);timer.current=setTimeout(()=>setNotice(''),4600);},[]);
  useEffect(()=>()=>{if(timer.current)clearTimeout(timer.current)},[]);
- const load=useCallback(async(file?:File,startOriginal=false,demo?:DemoSelection)=>{
+ const load=useCallback(async(file?:File,startOriginal=false,demo?:DemoSelection,cameraLook?:CameraLook)=>{
   const v=++version.current;gradeVersion.current++;setLoading(true);
-  let url=demo?exampleAsset(demo.look.id,'original'):'/'+picture;
+  let url=demo?exampleAsset(demo.look.id,'original',demo.sample):'/'+picture;
   try{
    if(file){checkPhotoFile(file);url=URL.createObjectURL(file);}
    const img=await readImage(url);if(v!==version.current)return;
@@ -81,7 +88,8 @@ export default function Studio(){
    const canvas=canvasOf(img,img.naturalWidth,img.naturalHeight,3072);
    const small=canvasOf(canvas,canvas.width,canvas.height,previewEdge);
    const m=inspect(small);
-   manualLook.current=false;
+   manualLook.current=!!cameraLook;
+   if(cameraLook){setRecipe(cameraLook.recipe);setAdj(cameraLook.adjustment);}
    setBaseUrl(file?small.toDataURL('image/jpeg',.94):url);
    setPhoto({canvas,small,width:img.naturalWidth,height:img.naturalHeight,file:file?.name??(demo?demo.look.id+'.webp':'ALPINE_001.JPG'),sample:!file&&!demo,sourceOnly:startOriginal,demo});
    setAnalysis(m);setCompare(false);setSplit(50);setOutput('');setJobError('');
@@ -99,14 +107,17 @@ export default function Studio(){
    const sync=()=>{
      const hash=location.hash;
      const pro=hash==='#library/pro'||hash.startsWith('#library/pro/');
-     const next=hash.startsWith('#samples')?'samples':hash==='#library'||pro?'library':'studio';
+     const real=hash==='#library/real';
+     const next=hash.startsWith('#samples')?'samples':hash==='#library'||pro||real?'library':'studio';
      setTab(next);
      if(next==='studio')setStudioOpened(true);
      if(pro){
        const id=hash.slice('#library/pro/'.length);
        setLibraryTone(isToneId(id)?id:'overview');
-     }else if(hash==='#library'){
+     }else if(hash==='#library'||real){
        setLibraryTone(null);
+       if(real)setLibraryFamily('real');
+       else setLibraryFamily(value=>value==='real'?'all':value);
      }
    };
    sync();
@@ -115,7 +126,7 @@ export default function Studio(){
  },[]);
  const selectTone=(tone:ToneSelection|null)=>{
    setLibraryTone(tone);
-   location.hash=tone===null?'library':tone==='overview'?'library/pro':'library/pro/'+tone;
+   location.hash=tone===null?(libraryFamily==='real'?'library/real':'library'):tone==='overview'?'library/pro':'library/pro/'+tone;
  };
  const go=(target:'studio'|'library'|'samples')=>{
    if(target!==tab)window.scrollTo(0,0);
@@ -250,14 +261,21 @@ export default function Studio(){
  };
  const visibleLibrary=(bankReady?recipes:[...socialRecipes,...baseRecipes]).filter(look=>{
    if(libraryFamily==='all')return true;
+   if(libraryFamily==='real')return Object.hasOwn(realExamples,look.id);
    if(libraryFamily==='social')return look.collection==='social';
    if(libraryFamily==='professional')return look.collection==='professional';
    if(libraryFamily==='classic')return look.lutIndex===undefined&&!look.collection;
    return look.family===libraryFamily;
  });
- const showStudy=(look:Recipe)=>{setStudyLook(look);setDialog('look-study');};
- const useExample=(look:Recipe,strength:number)=>{
-   const sample={...lookExample(look.id),strength};
+ if(libraryFamily==='all'){
+   const order=(look:Recipe)=>{const rank=featuredExamples.indexOf(look.id);return rank===-1?featuredExamples.length:rank};
+   visibleLibrary.sort((a,b)=>order(a)-order(b));
+ }
+ const showStudy=(look:Recipe,fullscreen=false,sample=lookExample(look.id))=>{
+   setStudyLook(look);setStudySample(sample);setStudyFullscreen(fullscreen);setDialog('look-study');
+ };
+ const useExample=(look:Recipe,example:LookExample,strength:number)=>{
+   const sample={...example,strength};
    setDialog(null);
    void load(undefined,false,{look,sample});
  };
@@ -306,7 +324,7 @@ export default function Studio(){
  return <>
   <header className="top"><div className="top-inner"><a className="brand" href="#studio" onClick={()=>go('studio')} aria-label="Luma Studio 工作台"><img src="/favicon.svg" alt=""/><strong>Luma<span>Studio</span></strong></a>
   <nav aria-label="主导航"><button aria-current={tab==='studio'?'page':undefined} className={tab==='studio'?'nav-active':''} onClick={()=>go('studio')}><PanelsTopLeft/>工作台</button><button aria-current={tab==='library'?'page':undefined} className={tab==='library'?'nav-active':''} onClick={()=>go('library')}><Layers3/>滤镜库</button><button aria-current={tab==='samples'?'page':undefined} className={tab==='samples'?'nav-active':''} onClick={()=>go('samples')}><Film/>场景样片</button><a href="/studies"><Columns2/>风格对照</a></nav><button className="help" aria-label="使用指南" onClick={()=>setDialog('help')}><CircleHelp size={17}/><span>使用指南</span></button></div></header>
-  <main id="studio"><div className="page-heading"><div><h1>{tab==='studio'?'影调工作台':tab==='samples'?'场景样片':'滤镜库'}<em>{tab==='studio'?'Film Lab':tab==='samples'?'Field Notes':'Film Library'}</em></h1><p>{tab==='studio'?'根据画面的光线与色彩，找到适合这张照片的影调。':tab==='samples'?'八张 AI 创作样片。打开照片，观察光线、颜色与影调配方。':'每款滤镜配有专属场景，可查看原图与应用效果。'}</p></div>{tab==='samples'?<a className="upload" href="/samples/Luma_Scene_Studies.zip" download><Download size={17}/>下载整套样片</a>:<button className="upload" onClick={()=>input.current?.click()} disabled={loading}><Upload size={17}/>{loading?'读取中…':'上传照片'}</button>}<input ref={input} hidden type="file" accept={photoFileTypes} onChange={inputChanged}/></div>
+  <main id="studio" className={tab==='library'?'look-library-page':undefined}><div className="page-heading"><div><h1>{tab==='studio'?'影调工作台':tab==='samples'?'场景样片':'滤镜库'}<em>{tab==='studio'?'Film Lab':tab==='samples'?'Field Notes':'Film Library'}</em></h1><p>{tab==='studio'?'根据画面的光线与色彩，找到适合这张照片的影调。':tab==='samples'?'八张 AI 创作样片。打开照片，观察光线、颜色与影调配方。':'同一张照片，左边是原图，右边是调色后。点开可全屏比较。'}</p></div>{tab==='samples'?<a className="upload" href="/samples/Luma_Scene_Studies.zip" download><Download size={17}/>下载整套样片</a>:<div className="page-photo-actions"><button className="upload" onClick={()=>input.current?.click()} disabled={loading}><Upload size={17}/>{loading?'读取中…':'上传照片'}</button>{tab==='studio'&&<button className="secondary open-camera" onClick={()=>setDialog('camera')} disabled={loading}><Camera size={17}/>相机取景</button>}</div>}<input ref={input} hidden type="file" accept={photoFileTypes} onChange={inputChanged}/></div>
   {tab==='studio'?<div className="workspace">
   <section ref={stage} className={'viewer '+(wide?'expanded ':'')+(drag?'dragging':'')} aria-label="照片预览" onDragOver={e=>e.preventDefault()} onDragEnter={e=>{e.preventDefault();dragDepth.current++;setDrag(true)}} onDragLeave={()=>{if(--dragDepth.current<=0)setDrag(false)}} onDrop={e=>{e.preventDefault();dragDepth.current=0;setDrag(false);const f=e.dataTransfer.files[0];if(f)load(f)}}>
   <div className="photo-stage" style={photo?{'--photo-ratio':photo.width/photo.height} as React.CSSProperties:undefined}><img className="original-photo" src={baseUrl} alt={photo?.demo?.sample.title??(photo?.sample===false?'上传的原始照片':'金色晨光照亮山峰，山下的针叶林倒映在湖面上')}/><canvas ref={preview} className="graded-photo" aria-label="当前影调预览" style={{clipPath:compare?'inset(0 0 0 '+split+'%)':undefined,opacity:photo?1:0}}/>
@@ -318,7 +336,7 @@ export default function Studio(){
   <aside className="panel" id="adjustments"><div className="panel-head"><h2><SlidersHorizontal size={19}/>调色面板</h2><button className="icon-btn" title="重置调节" aria-label="重置调节" onClick={()=>{change(defaults);say('已恢复当前配方的默认参数')}}><RotateCcw size={16}/></button></div>
   <div className="panel-content"><div className="recipe-box"><div className="recipe-label"><Film size={14}/>{recipe.familyName??"当前影调"}</div><h3>{recipe.name}</h3><em>{recipe.en}</em><div className="film-mark" aria-hidden="true"><Aperture strokeWidth={.9}/></div></div>
   <div className="sliders"><Slider label="滤镜强度" value={adj.strength} min={0} max={100} formatted={adj.strength+'%'} change={v=>change({strength:v})}/><Slider label="曝光补偿" value={adj.exposure} min={-1} max={1} step={.1} formatted={(adj.exposure>0?'+':'')+adj.exposure.toFixed(1)+' EV'} change={v=>change({exposure:v})}/><Slider label="色温偏移" value={adj.temp} min={-100} max={100} formatted={(adj.temp>0?'+':'')+adj.temp} change={v=>change({temp:v})}/></div>
-  <p className="recipe-description">{recipe.description}{lookExample(recipe.id)&&<button className="recipe-example-link" onClick={()=>showStudy(recipe)}>查看配套样片</button>}</p>
+  <p className="recipe-description">{lookDescription(recipe)}{lookExample(recipe.id)&&<button className="recipe-example-link" onClick={()=>showStudy(recipe)}>查看配套样片</button>}</p>
   <div className="analysis"><div className="analysis-title"><h3><Activity size={16}/>画面分析</h3><span>RGB</span></div><svg className="histogram" aria-label="原图的红绿蓝亮度直方图" viewBox="0 0 252 64" preserveAspectRatio="none"><g stroke="#393b36" strokeWidth=".6">{[42,84,126,168,210].map(x=><path key={x} d={'M'+x+' 0V64'}/>)}{[21,42,63].map(y=><path key={y} d={'M0 '+y+'H252'}/>)}</g>{analysis?.curves.map((d,i)=><path key={i} d={d} fill={['#db9258','#72a78c','#769ba9'][i]} fillOpacity=".27" stroke={['#d6a074','#76a48c','#7f9da8'][i]} strokeOpacity=".85" strokeWidth="1.1"/>)}</svg>
   <div className="analysis-info"><div className="tags">{analysis?.tags.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><div className="swatches" aria-label="主要色彩">{analysis?.palette.map(c=><i key={c} style={{background:c}} title={c}/>)}</div></div></div>
   <div className="actions"><button className="primary" onClick={openAI} disabled={!photo}><Sparkles size={17}/>对比 LUT / AI</button><button className="secondary" onClick={exportPhoto} disabled={!photo}><Download size={16}/>导出滤镜照片</button>{photo&&<button className="secondary" onClick={exportLook}><Download size={16}/>下载当前 33³ LUT</button>}</div></div></aside>
@@ -368,22 +386,28 @@ export default function Studio(){
         : <ToneLibrary looks={recipes} selection={libraryTone} selected={selected} onSelect={selectTone} onOpen={showStudy}/>
     ) : <>
     <div className="look-toolbar" aria-label="按风格筛选">
-      {(bankReady?familyFilters:familyFilters.filter(group=>['all','classic','social'].includes(group.id))).map(group=>
-        <button key={group.id} type="button" aria-pressed={libraryFamily===group.id} onClick={()=>setLibraryFamily(group.id)}>{group.name}</button>
+      {(bankReady?familyFilters:familyFilters.filter(group=>['all','real','classic','social'].includes(group.id))).map(group=>
+        <button key={group.id} type="button" aria-pressed={libraryFamily===group.id} onClick={()=>{
+          setLibraryFamily(group.id);
+          if(group.id==='real')location.hash='library/real';
+          else if(location.hash==='#library/real')location.hash='library';
+        }}>{group.name}</button>
       )}
       <span>{visibleLibrary.length} 款</span>
     </div>
-    <LookGallery looks={visibleLibrary} selected={selected} onOpen={showStudy}/>
+    <LookGallery looks={visibleLibrary} selected={selected} onOpen={showStudy} samples={libraryFamily==='real'?realExamples:undefined}/>
     </>}
   </section>}
   </main>
   {dialog==='help'&&<Modal name="使用指南" close={()=>setDialog(null)}><div className="guide"><h3><Upload/>导入照片</h3><p>点击「上传照片」，或将一张 JPG、PNG、WebP 照片拖到预览区。单张上限 25 MB。HEIC 能否导入取决于浏览器，无法打开时请转为 JPG。</p><h3><SlidersHorizontal/>确定影调</h3><p>自动追色先查找个人灵感组，空库时使用默认样片。找不到合适参考时会根据原图生成新配方。也可以上传单张参考图，或切换为按原图推荐。</p><h3><Sparkles/>生成或导出</h3><p>本地滤镜可直接导出 JPG，最长边为 3072 像素。AI 光影会保留画面构图，按选定影调调整光线。确认生成后会把原图和 LUT 应用图发送至 Pikso。</p></div><button className="primary" onClick={()=>setDialog(null)}>返回工作台</button></Modal>}
-  {dialog==='look-study'&&studyLook&&<Modal name={studyLook.name+' · 滤镜样片'} close={()=>setDialog(null)} wide>
-    <LookStudy key={studyLook.id} look={studyLook} canApply={!!photo}
+  {dialog==='camera'&&<Modal name="相机取景" close={()=>setDialog(null)} wide>
+    <CameraPreview initial={{recipe,adjustment:adj}} choices={bankReady?recipes:[...baseRecipes,...socialRecipes]}
+      onCapture={(file,look)=>{setDialog(null);void load(file,false,undefined,look);}}/>
+  </Modal>}
+  {dialog==='look-study'&&studyLook&&studySample&&<LookStudy key={studyLook.id} look={studyLook} sample={studySample} canApply={!!photo} close={()=>setDialog(null)} startFullscreen={studyFullscreen}
       tone={tab==='library'&&libraryTone!==null?sampleToneIndex[studyLook.id]:undefined}
       onApply={strength=>{pick(studyLook,strength);setDialog(null);}}
-      onUseExample={strength=>useExample(studyLook,strength)}/>
-  </Modal>}
+      onUseExample={strength=>useExample(studyLook,studySample,strength)}/>}
   {dialog==='inspiration'&&<Modal name="灵感库" close={()=>setDialog(null)} wide>
     <InspirationLibrary personal={personal??[]} defaults={defaultInspiration}
       onSave={board=>{setPersonal(previous=>[...(previous??[]).filter(item=>item.id!==board.id),board]);automatic();}}

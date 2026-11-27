@@ -18,7 +18,7 @@ const { recipes } = require('../app/film.ts');
 const { gradePixels } = require('../app/pixels.ts');
 const { loadLookBank } = require('../app/luts/bank.ts');
 const { measureTone, toneCategories } = require('../app/luts/tones.ts');
-const { examples, originalAsset } = require('../app/luts/examples.ts');
+const { examples, originalAsset, realExamples } = require('../app/luts/examples.ts');
 const { professionalLooks } = require('../app/luts/professional-looks.ts');
 
 global.fetch = async () => new Response(await fs.readFile('public/luma-luts/bank.bin'));
@@ -34,19 +34,20 @@ async function main() {
   assert(await loadLookBank(), 'The LUT bank must load before rendering.');
   let rendered = 0;
   const skipped = [];
-  for (const recipe of recipes) {
-    if (selected.size && !selected.has(recipe.id)) continue;
-    const example = examples[recipe.id];
+  const samples = recipes.flatMap(recipe => [examples[recipe.id], realExamples[recipe.id]]
+    .filter(Boolean).map(example => ({recipe, example, id: example.assetId ?? recipe.id})));
+  for (const {recipe, example, id} of samples) {
+    if (selected.size && !selected.has(id)) continue;
     assert(example && example.title && example.note && example.scene);
-    const dir = path.join('public','look-examples',recipe.id);
-    const original = 'public' + originalAsset(recipe.id);
+    const dir = path.join('public','look-examples',id);
+    const original = 'public' + originalAsset(recipe.id, example);
     await fs.mkdir(dir,{recursive:true});
     if (!await isFile(original)) {
-      assert(!example.sourceLook, 'Missing shared original for ' + recipe.id);
+      assert(!example.sourceLook && !example.assetId, 'Missing original for ' + id);
       const source = example.study ? 'public/samples/'+example.study+'.jpg'
         : sourceDirectory && path.join(sourceDirectory,recipe.id+'.png');
       if (!source || !await isFile(source)) {
-        skipped.push(recipe.id);
+        skipped.push(id);
         continue;
       }
       await sharp(source).rotate().toColourspace('srgb').flatten({background:'#151615'})
@@ -59,10 +60,11 @@ async function main() {
     gradePixels(pixels,recipe,{strength:example.strength,exposure:0,temp:0});
     const render = sharp(data,{raw:{width,height,channels:4}}).removeAlpha();
     await render.clone().webp({quality:91,effort:5}).toFile(path.join(dir,'graded.webp'));
-    const position = height>width && !example.sourceLook ? sharp.strategy.attention : 'centre';
-    await render.resize(480,320,{fit:'cover',position})
+    // Match the crop exactly on both sides of the preview.
+    const crop = {fit:'cover',position:'centre'};
+    await render.resize(720,480,crop)
       .webp({quality:83,effort:5}).toFile(path.join(dir,'thumb.webp'));
-    await sharp(original).resize(480,320,{fit:'cover',position})
+    await sharp(original).resize(720,480,crop)
       .webp({quality:83,effort:5}).toFile(path.join(dir,'original-thumb.webp'));
     rendered++;
   }

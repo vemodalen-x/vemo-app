@@ -32,9 +32,14 @@ function gradeTransform(r: Recipe, adj: Adjust) {
   return (R: number,G: number,B: number,mapped: Float64Array) => {
     if (r.lutIndex !== undefined && lookup(r.lutIndex,R,G,B,mapped)) {
       const tone = offset(mapped[0], mapped[1], mapped[2]);
-      mapped[0]=clamp((R+a*(mapped[0]+tone-R)+wt)*exp);
-      mapped[1]=clamp((G+a*(mapped[1]+tone-G))*exp);
-      mapped[2]=clamp((B+a*(mapped[2]+tone-B)-wt)*exp);
+      const y = .2126 * mapped[0] + .7152 * mapped[1] + .0722 * mapped[2];
+      const warmth = r.warmth * (.35 * 255 + .65 * y) + r.split * (y - .43 * 255);
+      const red = mapped[0] + (mapped[0] - y) * r.saturation + warmth;
+      const green = mapped[1] + (mapped[1] - y) * r.saturation + warmth * .075;
+      const blue = mapped[2] + (mapped[2] - y) * r.saturation - warmth;
+      mapped[0]=clamp((R+a*(red+tone-R)+wt)*exp);
+      mapped[1]=clamp((G+a*(green+tone-G))*exp);
+      mapped[2]=clamp((B+a*(blue+tone-B)-wt)*exp);
       return;
     }
     const lum=.2126*R+.7152*G+.0722*B,y=lum/255;

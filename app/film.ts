@@ -7,6 +7,22 @@ const toneCurves: Record<string, ToneCurve> = {
   'mocha-editorial': [[0, .25], [.35, .43], [.65, .58], [1, .80]],
   'ivory-day': [[0, .06], [.32, .37], [.62, .73], [1, .98]],
   'noon-in-color': [[0, 0], [.30, .28], [.60, .70], [.80, .90], [1, 1]],
+  'lucid-lake': [[0, .026], [.28, .25], [.50, .53], [.76, .78], [1, .96]],
+  'forest': [[0, .012], [.24, .20], [.58, .62], [1, .98]],
+  'lemon-grove': [[0, 0], [.26, .21], [.57, .60], [.81, .88], [1, .99]],
+  'leaflight': [[0, .01], [.25, .21], [.53, .59], [.77, .82], [1, .985]],
+  'blue-afterglow': [[0, .01], [.25, .18], [.59, .55], [1, .98]],
+  'vermilion-bloom': [[0, 0], [.30, .25], [.63, .64], [.84, .89], [1, .995]],
+};
+
+const authoredColor: Partial<Record<string, {saturation: number; warmth: number; split: number}>> = {
+  'lucid-lake': {saturation: .20, warmth: -.022, split: .05},
+  'lemon-grove': {saturation: .12, warmth: .013, split: .033},
+  'leaflight': {saturation: .12, warmth: .012, split: .07},
+  'blue-afterglow': {saturation: .10, warmth: -.03, split: .10},
+  'vermilion-bloom': {saturation: .21, warmth: .014, split: .028},
+  'brick-teal': {saturation: .12, warmth: .012, split: .05},
+  'amber-grain': {saturation: .09, warmth: .042, split: .026},
 };
 
 export type Recipe = {
@@ -21,12 +37,12 @@ export const baseRecipes: Recipe[] = [
   {id:'nordic', name:'北欧冷调', en:'Nordic Blue', description:'以冷蓝色中间调和克制的饱和度，呈现安静清冽的氛围。', light:'cool muted blue daylight, restrained contrast and soft tonal transitions', contrast:-0.04,saturation:-0.28,warmth:-0.13,lift:0.048,split:0.015},
   {id:'mono', name:'经典黑白', en:'Silver Noir', description:'用银盐般的灰阶和饱满的深黑，把视线引向光线与纹理。', light:'silver gelatin monochrome, sculptural light and detailed black-and-white tonal separation',contrast:0.22,saturation:-1,warmth:0,lift:0.005,split:0},
   {id:'airy', name:'日系清透', en:'Soft Air', description:'抬起中间调与暗部，让柔和的颜色和细节透出来。',light:'airy luminous midtones, delicate pastels and soft directional daylight',contrast:-0.15,saturation:-0.25,warmth:0.015,lift:0.11,split:0},
-  {id:'forest',name:'森系自然',en:'Forest Tone',description:'略微压暗高光，强化绿色与青色的细微差异。',light:'lush but natural forest tones, gentle directional light and clear greens',contrast:0.085,saturation:0.17,warmth:-0.035,lift:0.012,split:0.045},
+  {id:'forest',name:'森系自然',en:'Forest Tone',description:'略微压暗高光，强化绿色与青色的细微差异。',light:'lush but natural forest tones, gentle directional light and clear greens',contrast:0.115,saturation:0.23,warmth:-0.028,lift:0.012,split:0.066,toneCurve:toneCurves.forest},
   {id:'baroque',name:'巴洛克暗调',en:'Chiaroscuro',description:'金棕色亮部在深色阴影中渐次展开，以明暗塑造主体。',light:'Baroque chiaroscuro, warm sienna highlights, rich umber shadows, motivated directional illumination',contrast:0.34,saturation:-0.16,warmth:0.07,lift:-0.035,split:0.035},
   {id:'neutral',name:'自然通透',en:'True Color',description:'轻柔校正亮度与对比，让原有色彩更清晰。',light:'faithful neutral color, soft shadow recovery and balanced photographic light',contrast:0.07,saturation:0.03,warmth:0,lift:0.027,split:0}
 ];
 export const authoredLooks: Recipe[] = catalog.map(({ index, ...look }) => ({
-  ...look, lutIndex: index, toneCurve: toneCurves[look.id], contrast: 0, saturation: 0, warmth: 0, lift: 0, split: 0,
+  ...look, lutIndex: index, toneCurve: toneCurves[look.id], contrast: 0, saturation: 0, warmth: 0, lift: 0, split: 0, ...authoredColor[look.id],
 }));
 export const socialRecipes: Recipe[] = [
   {id:'direct-flash',name:'闪光留影',en:'Flash Diary',family:'american',familyName:'社媒灵感',collection:'social',
