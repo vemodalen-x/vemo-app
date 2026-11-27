@@ -26,7 +26,7 @@ jobs:
           ref: main
       - name: Import and verify published source
         shell: bash
-        run: python3 .github/sites-sync.py | tee "$GITHUB_STEP_SUMMARY"
+        run: python3 -u .github/sites-sync.py | tee "$GITHUB_STEP_SUMMARY"
       - name: Commit synchronized files
         shell: bash
         run: |
