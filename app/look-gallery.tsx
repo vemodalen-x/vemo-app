@@ -5,14 +5,13 @@ import {Aperture,Check,Columns2,Image as ImageIcon,RotateCcw} from 'lucide-react
 import type {Recipe} from './film';
 import {canvasOf,grade} from './pixels';
 import {defaults} from './film';
-import manifest from './luts/look-examples.json';
+import { examples, originalAsset } from './luts/examples';
 import {measureTone,toneCategories,type ToneId,type ToneMeasurement} from './luts/tones';
 
-export type LookExample={title:string;scene:string;note:string;strength:number;study?:string;originalFile?:string};
-const examples:Record<string,LookExample>=manifest;
+export type { LookExample } from './luts/examples';
 export function lookExample(id:string){return examples[id];}
 export function exampleAsset(id:string,variant:'original'|'graded'|'thumb'|'original-thumb'){
- return '/look-examples/'+id+'/'+(variant==='original'?examples[id]?.originalFile??'original.webp':variant+'.webp');
+ return variant==='original'?originalAsset(id):'/look-examples/'+id+'/'+variant+'.webp';
 }
 
 export function LookGallery({looks,selected,onOpen,tones}:{

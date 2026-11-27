@@ -4,6 +4,7 @@ import {useRef,useState,type ChangeEvent,type FormEvent} from 'react';
 import {FolderOpen, ImagePlus, Link2, Plus, Trash2} from 'lucide-react';
 import type {InspirationBoard,InspirationPhoto} from './luts/inspiration';
 import {deleteBoard, prepareInspiration, saveBoard} from './luts/inspiration-store';
+import {photoFileTypes} from './photo-file';
 
 type Props = {
   personal: InspirationBoard[];
@@ -45,7 +46,7 @@ export function InspirationLibrary({personal,defaults,onSave,onDelete,onSelect}:
       catch { skipped++; }
     }
     setPhotos(current=>[...current,...next]);
-    setError(skipped ? `${skipped} 张无法读取。请选用 JPG、PNG 或 WebP。` :
+    setError(skipped ? `${skipped} 张无法读取。请尝试 25 MB 内的 JPG、PNG 或 WebP。` :
       inputs.length > 30 - photos.length ? '每组最多 30 张，已导入剩余可用张数。' : '');
     setPending(false);
   }
@@ -98,7 +99,7 @@ export function InspirationLibrary({personal,defaults,onSave,onDelete,onSelect}:
       <label>组名<input value={name} maxLength={60} onChange={e=>setName(e.target.value)} placeholder="例如 暖窗人像" required/></label>
       <label>作品页或帖子链接（选填）<input type="url" value={source} maxLength={2048} onChange={e=>setSource(e.target.value)} placeholder="https://…"/></label>
       <div className="inspiration-controls"><button type="button" disabled={pending||photos.length>=30} onClick={()=>input.current?.click()}><ImagePlus size={16}/>添加参考照片</button><span>{photos.length} / 30 张</span></div>
-      <input ref={input} hidden type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={addImages}/>
+      <input ref={input} hidden type="file" multiple accept={photoFileTypes} onChange={addImages}/>
       {photos.length>0&&<div className="inspiration-edit-grid">{photos.map(photo=><figure key={photo.id}>
         <img src={photo.thumbnail} alt={photo.name}/><button type="button" aria-label={'移除 '+photo.name} disabled={pending} onClick={()=>setPhotos(current=>current.filter(entry=>entry.id!==photo.id))}>移除</button>
       </figure>)}</div>}

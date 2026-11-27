@@ -1,4 +1,5 @@
 import catalog from './luts/catalog.json';
+import { professionalRecipes } from './luts/professional-looks';
 
 type ToneCurve = readonly (readonly [input: number, output: number])[];
 const toneCurves: Record<string, ToneCurve> = {
@@ -11,7 +12,7 @@ const toneCurves: Record<string, ToneCurve> = {
 export type Recipe = {
   id: string; name: string; en: string; description: string; light: string;
   lutIndex?: number; family?: string; familyName?: string; featured?: boolean; source?: string; aliases?: string[];
-  collection?: 'social'; highlightRolloff?: number; shadowTeal?: number; toneCurve?: ToneCurve;
+  collection?: 'social' | 'professional'; highlightRolloff?: number; shadowTeal?: number; toneCurve?: ToneCurve;
   contrast: number; saturation: number; warmth: number; lift: number; split: number;
 }
 export const baseRecipes: Recipe[] = [
@@ -45,7 +46,7 @@ export const socialRecipes: Recipe[] = [
     light:'existing deep red neon against cyan-blue reflections, protected lights and readable shadows',
     contrast:.24,saturation:-.035,warmth:-.012,lift:.018,split:.12,shadowTeal:.34,highlightRolloff:.095},
 ];
-export const recipes = [...socialRecipes, ...authoredLooks, ...baseRecipes];
+export const recipes = [...socialRecipes, ...authoredLooks, ...baseRecipes, ...professionalRecipes];
 export const adaptiveRecipe: Recipe = {
   id:'adaptive', name:'自动新影调', en:'Adaptive Look', description:'根据原图的亮度、对比与色彩生成的调色配方。',
   light:'match the supplied graded rendition closely, including its contrast, color balance and highlight roll-off',

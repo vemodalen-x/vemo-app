@@ -18,7 +18,8 @@ const { recipes } = require('../app/film.ts');
 const { gradePixels } = require('../app/pixels.ts');
 const { loadLookBank } = require('../app/luts/bank.ts');
 const { measureTone, toneCategories } = require('../app/luts/tones.ts');
-const examples = require('../app/luts/look-examples.json');
+const { examples, originalAsset } = require('../app/luts/examples.ts');
+const { professionalLooks } = require('../app/luts/professional-looks.ts');
 
 global.fetch = async () => new Response(await fs.readFile('public/luma-luts/bank.bin'));
 const isFile = file => fs.stat(file).then(info=>info.isFile()).catch(()=>false);
@@ -26,6 +27,9 @@ const isFile = file => fs.stat(file).then(info=>info.isFile()).catch(()=>false);
 async function main() {
   const sourceDirectory = process.argv[2];
   const selected = new Set(process.argv.slice(3));
+  if (selected.delete('--professional')) {
+    for (const look of professionalLooks) selected.add(look.id);
+  }
   assert.equal(Object.keys(examples).length, recipes.length);
   assert(await loadLookBank(), 'The LUT bank must load before rendering.');
   let rendered = 0;
@@ -35,15 +39,16 @@ async function main() {
     const example = examples[recipe.id];
     assert(example && example.title && example.note && example.scene);
     const dir = path.join('public','look-examples',recipe.id);
-    const original = path.join(dir,example.originalFile||'original.webp');
+    const original = 'public' + originalAsset(recipe.id);
+    await fs.mkdir(dir,{recursive:true});
     if (!await isFile(original)) {
+      assert(!example.sourceLook, 'Missing shared original for ' + recipe.id);
       const source = example.study ? 'public/samples/'+example.study+'.jpg'
         : sourceDirectory && path.join(sourceDirectory,recipe.id+'.png');
       if (!source || !await isFile(source)) {
         skipped.push(recipe.id);
         continue;
       }
-      await fs.mkdir(dir,{recursive:true});
       await sharp(source).rotate().toColourspace('srgb').flatten({background:'#151615'})
         .resize(1152,864,{fit:'inside',withoutEnlargement:true}).webp({quality:92,effort:5}).toFile(original);
     }
@@ -54,9 +59,10 @@ async function main() {
     gradePixels(pixels,recipe,{strength:example.strength,exposure:0,temp:0});
     const render = sharp(data,{raw:{width,height,channels:4}}).removeAlpha();
     await render.clone().webp({quality:91,effort:5}).toFile(path.join(dir,'graded.webp'));
-    await render.resize(480,320,{fit:'cover',position:height>width?sharp.strategy.attention:'centre'})
+    const position = height>width && !example.sourceLook ? sharp.strategy.attention : 'centre';
+    await render.resize(480,320,{fit:'cover',position})
       .webp({quality:83,effort:5}).toFile(path.join(dir,'thumb.webp'));
-    await sharp(original).resize(480,320,{fit:'cover',position:height>width?sharp.strategy.attention:'centre'})
+    await sharp(original).resize(480,320,{fit:'cover',position})
       .webp({quality:83,effort:5}).toFile(path.join(dir,'original-thumb.webp'));
     rendered++;
   }
@@ -67,14 +73,26 @@ async function main() {
   }
 
   const toneIndex = {};
+  const counts = {};
+  const measures = {};
   for (const recipe of recipes) {
     const sample = await sharp(path.join('public','look-examples',recipe.id,'graded.webp'))
       .resize({width:256,height:256,fit:'inside'}).ensureAlpha().raw().toBuffer();
-    toneIndex[recipe.id] = measureTone(sample).id;
+    const measured = measureTone(sample);
+    measures[recipe.id] = measured;
+    toneIndex[recipe.id] = measured.id;
+    counts[measured.id] = (counts[measured.id] ?? 0) + 1;
   }
+  const mismatches = professionalLooks.flatMap(({ id, tone }) => {
+    const measured = measures[id];
+    return measured.id === tone ? [] : [{ id, expected: tone, actual: measured.id, median: measured.median, span: measured.span }];
+  });
+  assert.equal(mismatches.length, 0, 'Check professional sample targets: ' + JSON.stringify(mismatches));
   for (const [id, { representative }] of Object.entries(toneCategories)) {
     assert.equal(toneIndex[representative], id, 'Check the representative sample for '+id+' ('+representative+')');
+    assert((counts[id] ?? 0) >= 5, 'Fewer than five sample filters for ' + id);
   }
+  console.log('Verified category counts:', JSON.stringify(counts));
   await fs.writeFile('app/luts/sample-tones.json', JSON.stringify(toneIndex,null,2)+'\n');
 }
 

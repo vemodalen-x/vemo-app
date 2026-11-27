@@ -125,6 +125,9 @@ export function StudyGallery({
   }));
   const [comparison, setComparison] = useState<'side-by-side' | 'slider'>('side-by-side');
   const [split, setSplit] = useState(50);
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 640px)').matches) setComparison('slider');
+  }, []);
   const [notice, setNotice] = useState('');
   const [copyState, setCopyState] = useState<'idle' | 'prompt' | 'link'>('idle');
   const request = useRef(0);
@@ -201,7 +204,7 @@ export function StudyGallery({
       setNotice(kind === 'prompt' ? '已复制完整提示词' : '已复制当前组合的链接');
     } else {
       if (kind === 'prompt' && prompt.current) window.getSelection()?.selectAllChildren(prompt.current);
-      setNotice(kind === 'prompt' ? '可选中提示词，按 Ctrl+C 或 ⌘C 复制。' : '可从地址栏复制当前组合的链接。');
+      setNotice(kind === 'prompt' ? '可选中提示词，使用系统的复制功能。' : '可从地址栏复制当前组合的链接。');
     }
   }
 

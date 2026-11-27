@@ -1,5 +1,6 @@
 import type {InspirationBoard, InspirationPhoto} from './inspiration';
 import {canvasOf} from '../pixels';
+import {checkPhotoFile,readImage} from '../photo-file';
 import {profilePixels, readRecommendationPixels} from './recommend';
 
 const storeName = 'boards';
@@ -30,14 +31,10 @@ export const saveBoard = (board: InspirationBoard) => transact('readwrite',store
 export const deleteBoard = (id: string) => transact('readwrite',store=>store.delete(id));
 
 export async function prepareInspiration(file: File): Promise<InspirationPhoto> {
-  if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 25 * 1024 * 1024) {
-    throw new Error('请选择 25 MB 以内的 JPG、PNG 或 WebP。');
-  }
+  checkPhotoFile(file);
   const url = URL.createObjectURL(file);
   try {
-    const image = new Image();
-    image.src = url;
-    await image.decode();
+    const image = await readImage(url);
     const thumbnail = canvasOf(image,image.naturalWidth,image.naturalHeight,300);
     return { id:crypto.randomUUID(), name:file.name, thumbnail:thumbnail.toDataURL('image/jpeg',.79),
       profile:profilePixels(readRecommendationPixels(thumbnail)) };

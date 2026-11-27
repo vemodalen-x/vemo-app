@@ -235,3 +235,128 @@ dialog{background:#202329;border:1px solid #515761;border-radius:20px;box-shadow
  .tone-matrix-row button span{font-size:.68rem}
  .tone-explanation{padding:12px 14px}
 }
+
+.workspace {
+  grid-template-areas: "preview panel" "recommendations panel";
+  grid-template-rows: auto 1fr;
+  row-gap: 0;
+}
+.workspace > .viewer { grid-area: preview; min-width: 0; }
+.workspace > .panel { grid-area: panel; min-width: 0; }
+.workspace > .rec-section { grid-area: recommendations; min-width: 0; }
+.viewer-shortcuts { display: none; }
+.viewer.expanded { z-index: 25; }
+.photo-stage:has(.wipe:focus-visible), .study-media:has(.study-wipe:focus-visible) {
+  outline: 2px solid var(--amber);
+  outline-offset: -3px;
+}
+.study-wipe:focus-visible { opacity: 0; }
+.wipe, .study-wipe { touch-action: pan-y; }
+.generation .modal-sub { overflow-wrap: anywhere; }
+html:has(dialog[open]) { overflow: hidden; }
+dialog { overscroll-behavior: contain; }
+
+@media (max-width: 800px) {
+  .workspace {
+    grid-template-areas: "preview" "panel" "recommendations";
+    grid-template-rows: auto;
+    row-gap: 14px;
+  }
+}
+@media (max-width: 760px) {
+  .top-inner, main {
+    padding-inline-start: max(16px, env(safe-area-inset-left));
+    padding-inline-end: max(16px, env(safe-area-inset-right));
+  }
+  .top-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: auto;
+    min-height: 0;
+    gap: 0 8px;
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+  .top-inner .brand { width: fit-content; }
+  .top nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    overflow: visible;
+    gap: 0;
+    margin: 3px 0 0;
+  }
+  .top nav :is(button, a) {
+    min-height: 44px;
+    min-width: 0;
+    gap: 5px;
+    padding: 3px 0;
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+  .top nav svg { width: 13px; height: 13px; }
+  .top-inner .help { grid-column: 2; grid-row: 1; min-height: 44px; min-width: 44px; padding: 0; }
+  .top-inner .help span { display: none; }
+
+  .page-heading { align-items: start; }
+  .page-heading h1 { flex-wrap: wrap; column-gap: 10px; row-gap: 0; line-height: 1.2; }
+  .page-heading h1 em { white-space: nowrap; }
+  .page-heading .upload { min-height: 44px; flex-shrink: 0; padding-inline: 10px; }
+  .photo-stage { aspect-ratio: clamp(1, var(--photo-ratio, 1.87), 2.2); max-height: 52svh; }
+  .viewer.expanded { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .expanded .photo-stage { max-height: none; min-height: 0; }
+  .viewer-foot { min-height: 53px; height: auto; }
+  .expand-btn { width: 44px; height: 44px; }
+  .compare-btn { min-height: 44px; }
+  .viewer-shortcuts { display: flex; justify-content: flex-end; gap: 8px; padding: 0 10px; border-top: 1px solid var(--line); }
+  .viewer-shortcuts a { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 7px; font-size: .85rem; color: #c0d0f6; }
+  .expanded .viewer-shortcuts { display: none; }
+  #adjustments, #recommended-looks, #study-prompt-heading { scroll-margin-top: 112px; }
+  .rec-section .section-title { margin-top: 2px; }
+  .slider input { height: 44px; margin-top: 0; }
+  .slider input::-webkit-slider-runnable-track { height: 4px; }
+  .slider input::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -8px; }
+  .slider input::-moz-range-thumb { width: 18px; height: 18px; }
+  .slider input::-moz-range-track { height: 4px; }
+  .sliders { gap: 4px; }
+  .recipe-box .recipe-label { display: none; }
+  .recipe-box h3 { font-size: 1.25rem; }
+  .recipe-box { padding-block: 8px; }
+  .panel-head .icon-btn, .section-title .text-btn, .reference-upload,
+  .look-toolbar button, .inspiration-controls :is(button, a), .scene-pager button { min-height: 44px; }
+  .panel-head .icon-btn, .modal-head .icon-btn { min-width: 44px; min-height: 44px; }
+  .tone-matrix-row button { min-height: 44px; }
+
+  dialog, dialog.wide-modal, dialog.scene-dialog {
+    width: 100%;
+    max-width: none;
+    max-height: 92dvh;
+    margin: auto 0 0;
+    border-radius: 19px 19px 0 0;
+    padding: 0 14px max(16px, env(safe-area-inset-bottom));
+  }
+  .modal-head {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: #202329;
+    margin: 0 -14px 12px;
+    padding: 6px 12px 6px 14px;
+  }
+  .study-media { height: clamp(170px, 36dvh, 345px); min-height: 0; }
+  .example-study-photos.both :is(.study-media, figure > img) { height: clamp(122px, 30vw, 205px); }
+  .study-intensity input { min-height: 44px; }
+  .example-study-actions > button { flex: 1 1 130px; }
+  .inspiration-form input:not([type=file]) { min-width: 0; width: 100%; min-height: 44px; font-size: 1rem; }
+  .generation .dual > * { flex: 1 1 130px; }
+  .generation-pair img { height: clamp(112px, 34vw, 225px); }
+  .toast { bottom: max(12px, env(safe-area-inset-bottom)); max-width: calc(100% - 24px); }
+}
+@media (max-width: 355px) {
+  .top nav :is(button, a) { font-size: .75rem; }
+  .top nav svg { display: none; }
+  .tone-matrix-row button { flex-direction: column; gap: 0; }
+  .tone-matrix-end button { flex-direction: row; gap: 6px; }
+  .page-heading h1 em { display: none; }
+}

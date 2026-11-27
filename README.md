@@ -39,8 +39,9 @@ node scripts/render-look-examples.cjs ''
 ```
 
 For a single recipe, append its ID, for example `node scripts/render-look-examples.cjs '' neon-diary`.
+To render the professional additions, pass `--professional` after the empty source directory argument. Their examples reuse matching original photographs from the sample library.
 
-The renderer also refreshes `app/luts/sample-tones.json`. Professional mode classifies the graded teaching samples using display luma: the median determines the main brightness, the P95 minus P5 range describes tonal span, and a separate two-peak check identifies full long tones. The render script checks that all ten representative samples match their categories. The live comparison and LUT export use the same grading transform as the asset renderer.
+The renderer also refreshes `app/luts/sample-tones.json`. Professional mode classifies the graded teaching samples using display luma: the median determines the main brightness, the P95 minus P5 range describes tonal span, and a separate two-peak check identifies full long tones. The render script verifies the representative and professional sample assignments and enforces at least five looks per category. The live comparison and LUT export use the same grading transform as the asset renderer.
 
 ## Git
 
