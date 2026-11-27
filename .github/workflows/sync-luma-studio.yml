@@ -7,7 +7,7 @@ on:
       - .github/sites-sync.py
   workflow_dispatch:
   schedule:
-    - cron: '3-58/5 * * * *'
+    - cron: '3,8,13,18,23,28,33,38,43,48,53,58 * * * *'
 
 permissions:
   contents: write
@@ -25,7 +25,8 @@ jobs:
         with:
           ref: main
       - name: Import and verify published source
-        run: python3 .github/sites-sync.py
+        shell: bash
+        run: python3 .github/sites-sync.py | tee "$GITHUB_STEP_SUMMARY"
       - name: Commit synchronized files
         shell: bash
         run: |
