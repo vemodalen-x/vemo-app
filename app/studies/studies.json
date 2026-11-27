@@ -1,0 +1,414 @@
+{
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "日间自然",
+      "title": "海湾的斑驳日光"
+    },
+    {
+      "id": "s2",
+      "name": "城市街景 · 日间",
+      "title": "红篷下的街角"
+    },
+    {
+      "id": "s3",
+      "name": "人像",
+      "title": "窗边的侧光"
+    },
+    {
+      "id": "s4",
+      "name": "室内暖光",
+      "title": "靠窗的早餐"
+    },
+    {
+      "id": "s5",
+      "name": "阴雨 / 蓝调",
+      "title": "雨停前的路口"
+    },
+    {
+      "id": "s6",
+      "name": "夜景 / 灯光",
+      "title": "灯下的夜摊"
+    },
+    {
+      "id": "s7",
+      "name": "宠物",
+      "title": "窗台上的三花猫"
+    },
+    {
+      "id": "s8",
+      "name": "微距 / 花卉",
+      "title": "荷瓣透光"
+    }
+  ],
+  "styles": [
+    {
+      "id": "impression",
+      "name": "印象派",
+      "character": "受光黄绿与暖金、阴影蓝绿、水面蓝反光，轻柔压住最亮处。"
+    },
+    {
+      "id": "american",
+      "name": "美国彩色摄影",
+      "character": "中性浅底、深色几何阴影，保留一至两块主要色彩。"
+    },
+    {
+      "id": "renaissance",
+      "name": "文艺复兴",
+      "character": "参考图中的粉蓝、亚麻白与橄榄暖棕，上下光比柔和，保留主体体积。"
+    },
+    {
+      "id": "baroque",
+      "name": "巴洛克",
+      "character": "方向性暖光、深棕暗部和少量冷色，以较陡的明暗过渡塑造轮廓。"
+    },
+    {
+      "id": "taiwan",
+      "name": "台湾新电影",
+      "character": "低饱和灰阶与克制的红暖点，保留环境原有的冷暖和反光。"
+    },
+    {
+      "id": "night",
+      "name": "夜景",
+      "character": "保留冷暗底色和既有暖光，观察灯罩、面部与暗红的亮度差异。"
+    }
+  ],
+  "cases": {
+    "s1-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s1-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s1-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s1-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s1-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s1-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide Mediterranean rocky coast, framing pine trees and blue water. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s2-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s2-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s2-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s2-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s2-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s2-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide street corner with red awning, blue street fixture and angular facade shadow. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s3-impression": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Portrait photograph in vertical 2:3 format, the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s3-american": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Vertical 2:3 portrait of the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s3-renaissance": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Vertical 2:3 portrait of the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s3-baroque": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Vertical 2:3 portrait of the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s3-taiwan": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Vertical 2:3 portrait of the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s3-night": {
+      "size": [
+        1024,
+        1536
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Vertical 2:3 portrait of the same woman, exact face, hair, three-quarter pose, linen shirt, stonework and sky. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (vertical 2:3), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s4-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide still-life, an unchanged white breakfast plate, toast, eggs and tomato, cup, timber surface and window. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s4-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide still life, unchanged white breakfast plate, toast, eggs and tomato, cup, timber and window. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s4-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide still life, unchanged white breakfast plate, toast, eggs and tomato, cup, timber and window. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s4-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide still life, unchanged white breakfast plate, toast, eggs and tomato, cup, timber and window. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s4-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide still life, unchanged white breakfast plate, toast, eggs and tomato, cup, timber and window. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s4-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide still life, unchanged white breakfast plate, toast, eggs and tomato, cup, timber and window. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s5-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, small umbrella and existing red traffic light. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s5-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, umbrella and red traffic light. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s5-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, umbrella and red traffic light. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s5-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, umbrella and red traffic light. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s5-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, umbrella and red traffic light. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s5-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide rainy Taipei street, same reflective road, umbrella and red traffic light. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s6-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide night market, exact existing vendor, face, hands, activity, stall and already-positioned lanterns. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s6-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide night market, exact vendor, face, hands, activity, stall and existing lanterns. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s6-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide night market, exact vendor, face, hands, activity, stall and existing lanterns. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s6-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide night market, exact vendor, face, hands, activity, stall and existing lanterns. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s6-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide night market, exact vendor, face, hands, activity, stall and existing lanterns. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s6-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide night market, exact vendor, face, hands, activity, stall and existing lanterns. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s7-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide portrait of the exact same calico cat, preserve exact markings, eye shape, gaze, fur, pose and neutral setting. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s7-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide portrait of the same calico cat, preserve markings, eyes, fur, pose and setting. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s7-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide portrait of the same calico cat, preserve markings, eyes, fur, pose and setting. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s7-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide portrait of the same calico cat, preserve markings, eyes, fur, pose and setting. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s7-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide portrait of the same calico cat, preserve markings, eyes, fur, pose and setting. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s7-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide portrait of the same calico cat, preserve markings, eyes, fur, pose and setting. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s8-impression": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly one, full bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide macro image of same pink lotus, preserve the shape and location of each petal and foreground leaf. Change only the palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic impressionism and true outdoor color. Trace luminous yellow-green and warm gold where the light touches, cooler deep blue-green in foliage shadow, airy blue and white highlights when already present, preserve blue reflected light on existing water. Gentle highlights and natural texture, never a painted effect. Preserve the original pixel framing, subject, face, outline, expression, pose, precise object locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original lighting direction. Maintain spatial correspondence because the output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from the style reference. No borders, collage, signatures, or added text."
+    },
+    "s8-american": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide macro of the same pink lotus, preserve shape and location of each petal and leaf. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. American color-negative documentary photography: clean bright, mostly neutral film base with restrained muted blue-gray or green-gray in neutrals, graphic dark shapes and one or two strongest EXISTING color accents, especially red if present. Retain clean red pigment without clipping. Slight organic grain, modest highlight roll-off. No snow or umbrella unless the first image already contains them. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s8-renaissance": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide macro of the same pink lotus, preserve shape and location of each petal and leaf. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Use the reference photograph’s palette and low-contrast tonal response: soft ivory highlights, powdery blue with warm ochre and olive accents, soft continuous shadow transitions, muted color-negative texture, subtle warmth in skin and three-dimensional modeling where present. Delicate aged photographic finish with faint analog grain. Preserve detail in face, hair and fabric. Avoid brown monochrome, brushstrokes, and lettering from the reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s8-baroque": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide macro of the same pink lotus, preserve shape and location of each petal and leaf. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Photographic Baroque chiaroscuro. Sculpt existing main subject with selective directionally motivated amber-gold and burnt sienna light, taper neighboring surfaces into deep umber and near-black rich shadow. Retain selective cool blue-gray or green secondary highlights and readable subject detail, with smooth gradients. Use contrast and local tonal emphasis for dramatic depth, still a real photograph. Never introduce architectural, human or religious elements from reference. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s8-taiwan": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second image is color, contrast and lighting style reference only. Wide macro of the same pink lotus, preserve shape and location of each petal and leaf. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Taiwanese New Cinema observational film still. Restrained saturation, dense charcoal blacks with a little readable detail, gentle shoulder, slightly smoky gray olive midtones in diffuse daylight, muted slate and cobalt blue in existing cool ambience, small warm red, tungsten or amber details kept distinct. In warm interiors use their existing local color instead of covering every object with yellow. In rain leave a gradual continuous wet-surface highlight. Treat the multi-frame reference as three examples of a film palette only. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    },
+    "s8-night": {
+      "size": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: style-transfer. Produce exactly ONE full-bleed single photographic image. The FIRST input image is the ONLY edit target. The second and third images are color, contrast and lighting style reference only. Wide macro of the same pink lotus, preserve shape and location of each petal and leaf. Change only palette, luminance curve, film character, and gentle local light/shadow emphasis in the original. Night photography color rendering, with deep charcoal blue in naturally dark and neutral areas and selective warm practical lights or highlights, existing lamp shade pattern and color remain legible, subjects retain plausible face and hand detail, red objects in shadow stay dim. Low-key blue and amber palette. On daytime or indoor sources adapt these tonal relationships to the existing illumination and time of day. Never invent a dark sky, light fixtures, moon, new time of day or reflections. Preserve original framing, subject, face, outline, expression, pose, precise locations, scale, perspective, aspect ratio (horizontal 3:2), camera angle and original light direction. Maintain spatial correspondence because output will be compared pixelwise with the source. Change only appearance. Do not crop, extend, rearrange, redraw or transfer any object from a reference. No borders, collage, signatures or added text."
+    }
+  }
+}

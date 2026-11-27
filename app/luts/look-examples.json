@@ -1,0 +1,305 @@
+{
+  "linen-sun": {
+    "title": "窗边晨光人像",
+    "scene": "人像",
+    "note": "看白衬衫与肤色之间的过渡。",
+    "strength": 75
+  },
+  "pine-dusk": {
+    "title": "山城暮色",
+    "scene": "蓝调",
+    "note": "看深绿松针和远处的暖色灯点。",
+    "strength": 85
+  },
+  "silver-rain": {
+    "title": "路口雨停前",
+    "scene": "阴雨街拍",
+    "note": "看湿路反光和红灯周围的灰阶。",
+    "strength": 85,
+    "study": "s5"
+  },
+  "ink-and-gold": {
+    "title": "暗窗铜器",
+    "scene": "室内静物",
+    "note": "看铜壶反光与桌沿的暗部纹理。",
+    "strength": 75
+  },
+  "island-still": {
+    "title": "海岛午后",
+    "scene": "旅行纪实",
+    "note": "看褪色蓝漆、灰墙和日光的关系。",
+    "strength": 75
+  },
+  "noon-in-color": {
+    "title": "红篷下的街角",
+    "scene": "日间街景",
+    "note": "受光墙面主导画面，红篷下的深影保留了长跨度。",
+    "strength": 75,
+    "study": "s2"
+  },
+  "brick-teal": {
+    "title": "砖墙与绿门",
+    "scene": "复古街拍",
+    "note": "看砖红和松绿色的饱和度变化。",
+    "strength": 75
+  },
+  "sienna-glow": {
+    "title": "陶作工坊",
+    "scene": "暖光纪实",
+    "note": "看赭红陶土与窗侧亮面的层次。",
+    "strength": 75
+  },
+  "cloud-linen": {
+    "title": "阴天海岸人像",
+    "scene": "户外人像",
+    "note": "看淡蓝天空和针织衫的柔和过渡。",
+    "strength": 75
+  },
+  "leaflight": {
+    "title": "海湾斑驳日光",
+    "scene": "自然风景",
+    "note": "看受光黄绿、阴影蓝绿和水面反光。",
+    "strength": 75,
+    "study": "s1"
+  },
+  "amber-grain": {
+    "title": "旧剧院一角",
+    "scene": "暖光建筑",
+    "note": "看金色灯点与红绒座椅的反差。",
+    "strength": 75
+  },
+  "fresh-moss": {
+    "title": "苔石溪涧",
+    "scene": "林间自然",
+    "note": "看苔藓亮面、冷石和流水的颜色。",
+    "strength": 75
+  },
+  "umber-candle": {
+    "title": "烛光餐桌",
+    "scene": "室内静物",
+    "note": "看烛火周围的暖色层次和深影。",
+    "strength": 75
+  },
+  "indigo-embers": {
+    "title": "雨夜车站",
+    "scene": "夜景街拍",
+    "note": "看冷蓝环境与深橘车灯的分离。",
+    "strength": 75
+  },
+  "blue-afterglow": {
+    "title": "灯下的夜摊",
+    "scene": "夜景人文",
+    "note": "看冷暗背景与暖灯下的肤色。",
+    "strength": 75,
+    "study": "s6"
+  },
+  "harbor-gray": {
+    "title": "港口灰蓝",
+    "scene": "阴天旅行",
+    "note": "看灰水、船身和低饱和天空。",
+    "strength": 75
+  },
+  "lucid-lake": {
+    "title": "清晨湖面",
+    "scene": "自然风景",
+    "note": "看蓝绿色倒影和水面高光。",
+    "strength": 75
+  },
+  "ivory-day": {
+    "title": "象牙白廊下",
+    "scene": "柔光人像",
+    "note": "象牙白墙与受光面更明亮，脸部暗侧仍保留中灰层次。",
+    "strength": 75
+  },
+  "vermilion-bloom": {
+    "title": "荷瓣透光",
+    "scene": "微距花卉",
+    "note": "看粉红花瓣受光面与绿叶阴影。",
+    "strength": 85,
+    "study": "s8"
+  },
+  "mint-haze": {
+    "title": "早市的白花",
+    "scene": "清透花卉",
+    "note": "看浅绿和花瓣白之间的细微色差。",
+    "strength": 75
+  },
+  "lemon-grove": {
+    "title": "南方柠檬树",
+    "scene": "日间自然",
+    "note": "看柠檬黄、叶绿和石墙的层次。",
+    "strength": 75
+  },
+  "honey-hour": {
+    "title": "金色公路旁",
+    "scene": "日落旅行",
+    "note": "看余晖下的蜂蜜色和路面灰色。",
+    "strength": 75
+  },
+  "linen-haze": {
+    "title": "窗边的侧光",
+    "scene": "柔光人像",
+    "note": "看脸颊、发丝与浅色衣料的层次。",
+    "strength": 75,
+    "study": "s3"
+  },
+  "rose-parlor": {
+    "title": "粉室午光",
+    "scene": "复古人像",
+    "note": "看玫瑰粉衣料与肤色的成对变化。",
+    "strength": 75
+  },
+  "green-corner": {
+    "title": "街角树荫",
+    "scene": "日间街景",
+    "note": "看叶绿、白墙与阴影的边界。",
+    "strength": 75
+  },
+  "wet-pavement": {
+    "title": "雨后巷口",
+    "scene": "阴雨街拍",
+    "note": "看湿路灰阶和街边的绿色。",
+    "strength": 75
+  },
+  "peach-air": {
+    "title": "桃色海风",
+    "scene": "日落旅行",
+    "note": "看淡桃高光与蓝灰远景。",
+    "strength": 75
+  },
+  "quiet-wheat": {
+    "title": "麦田侧光",
+    "scene": "郊野纪实",
+    "note": "看麦秆的土黄和树影的深灰。",
+    "strength": 75
+  },
+  "cobalt-rain": {
+    "title": "钴蓝雨站",
+    "scene": "蓝调街拍",
+    "note": "看蓝色反光与少量暖灯是否分得开。",
+    "strength": 75
+  },
+  "espresso-glow": {
+    "title": "深夜意式咖啡",
+    "scene": "低照度静物",
+    "note": "看浓咖啡、灯罩与白杯的亮部。",
+    "strength": 75
+  },
+  "mirror-light": {
+    "title": "自然光校准台",
+    "scene": "颜色校准",
+    "note": "比较同一批中性色和有色物件。",
+    "strength": 100
+  },
+  "terracotta-face": {
+    "title": "陶土色侧脸",
+    "scene": "侧光人像",
+    "note": "看亮侧暖肤色和暗侧的面部结构。",
+    "strength": 65
+  },
+  "burnt-sugar": {
+    "title": "焦糖烘焙台",
+    "scene": "美食暖光",
+    "note": "看焦糖表面亮度和背景深棕。",
+    "strength": 75
+  },
+  "moonlit-cafe": {
+    "title": "月下空桌",
+    "scene": "冷暖混光",
+    "note": "看玻璃冷反光与台灯的暖色。",
+    "strength": 75
+  },
+  "apricot-light": {
+    "title": "杏色糕点台",
+    "scene": "生活方式",
+    "note": "看杏橙色能否维持细腻过渡。",
+    "strength": 75
+  },
+  "porcelain-glaze": {
+    "title": "瓷白与青釉",
+    "scene": "静物产品",
+    "note": "看瓷白底色、青釉和阴影分界。",
+    "strength": 75
+  },
+  "blue-hour": {
+    "title": "蓝时站台",
+    "scene": "蓝调旅行",
+    "note": "看晚霞余亮和冷蓝暗部。",
+    "strength": 75
+  },
+  "warm": {
+    "title": "靠窗的早餐",
+    "scene": "咖啡探店",
+    "note": "看盘面白色和木桌暖意。",
+    "strength": 75,
+    "study": "s4"
+  },
+  "cine": {
+    "title": "蓝绿地铁出口",
+    "scene": "青橙街拍",
+    "note": "看青绿暗部与暖肤色的分离。",
+    "strength": 65
+  },
+  "nordic": {
+    "title": "北岸冬日",
+    "scene": "冷调风景",
+    "note": "看蓝灰天空、雪面和深灰海水。",
+    "strength": 65
+  },
+  "mono": {
+    "title": "午后扶梯",
+    "scene": "黑白街拍",
+    "note": "看白墙、栏杆和人物剪影的灰阶。",
+    "strength": 100
+  },
+  "airy": {
+    "title": "日系窗台",
+    "scene": "日系生活",
+    "note": "看窗纱、陶杯与亮部细节。",
+    "strength": 75
+  },
+  "forest": {
+    "title": "湿润蕨林",
+    "scene": "森系自然",
+    "note": "看蕨叶黄绿和深绿的区分。",
+    "strength": 90
+  },
+  "baroque": {
+    "title": "深柜银器",
+    "scene": "古典静物",
+    "note": "看银器亮线与深棕桌面的过渡。",
+    "strength": 65
+  },
+  "neutral": {
+    "title": "窗台上的三花猫",
+    "scene": "宠物",
+    "note": "看花色、浅色爪尖与窗边亮度。",
+    "strength": 90,
+    "study": "s7"
+  },
+  "direct-flash": {
+    "title": "夜间直闪人像",
+    "scene": "CCD 直闪",
+    "note": "看闪光下肤色、白衣和硬影的边缘。",
+    "strength": 65
+  },
+  "cream-editorial": {
+    "title": "浅色奶油静物",
+    "scene": "奶油色",
+    "note": "暗面抬起后，白瓷、米白布料和奶油的细节集中在浅色区域。",
+    "strength": 90
+  },
+  "mocha-editorial": {
+    "title": "棕调雨后街角",
+    "scene": "咖棕调",
+    "note": "外套与街墙的亮度靠近中灰，棕色和深红仍各自可辨。",
+    "strength": 75
+  },
+  "neon-diary": {
+    "title": "雨幕之后",
+    "scene": "港风雨夜",
+    "note": "拖动分界线，观察灰蓝楼影和湿路转为冷青，红橙灯光仍保持暖色。",
+    "strength": 100,
+    "originalFile": "original-v7.webp"
+  }
+}
