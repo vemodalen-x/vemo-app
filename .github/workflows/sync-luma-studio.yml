@@ -1,0 +1,35 @@
+name: Sync published Luma Studio
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/sync-luma-studio.yml
+      - .github/sites-sync.py
+  workflow_dispatch:
+  schedule:
+    - cron: '3-58/5 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-luma-studio
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d275973c3baaf683
+        with:
+          ref: main
+      - name: Import and verify published source
+        run: python3 .github/sites-sync.py
+      - name: Commit synchronized files
+        shell: bash
+        run: |
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Sync Luma Studio from published Sites release'
+          git push origin HEAD:main
