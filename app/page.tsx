@@ -19,11 +19,13 @@ import {InspirationLibrary} from './inspiration-library';
 import {RecommendationNotes} from './luts/recommendation-notes';
 import {sampleToneIndex,ToneLibrary,type ToneSelection} from './tone-library';
 import {isToneId} from './luts/tones';
+import {defaultGenerationPreset,generationPresets,generationSize,maxGenerationInputBytes,type GenerationPreset} from './generation-settings';
 type DemoSelection={look:Recipe;sample:LookExample};
 type Photo={canvas:HTMLCanvasElement;small:HTMLCanvasElement;file:string;width:number;height:number;sample:boolean;sourceOnly:boolean;demo?:DemoSelection};
 type Dialog='help'|'generation'|'inspiration'|'look-study'|'camera'|null;
 type Pair='original-lut'|'original-ai'|'lut-ai';
 type ReferencePhoto={canvas:HTMLCanvasElement;thumbnail:string;name:string};
+type AIResult={url:string;width:number;height:number;requestedSize?:string;modelLabel?:string};
 const familyFilters = [
   {id:'all',name:'全部收录'},
   {id:'real',name:'实拍样片'},
@@ -36,7 +38,11 @@ const familyFilters = [
 const picture='alpine-source.jpg';
 const featuredExamples=['neon-diary','cream-editorial','noon-in-color','mono'];
 function saveBlob(blob:Blob,name:string){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
-function jpeg(src:HTMLCanvasElement){return new Promise<Blob>((ok,fail)=>src.toBlob(blob=>blob?ok(blob):fail(Error('图像导出失败。')),'image/jpeg',.94));}
+function jpeg(src:HTMLCanvasElement,quality=.94){return new Promise<Blob>((ok,fail)=>src.toBlob(blob=>blob?ok(blob):fail(Error('图像导出失败。')),'image/jpeg',quality));}
+async function generationJpeg(canvas:HTMLCanvasElement){
+ const blob=await jpeg(canvas,.93);
+ return blob.size<=maxGenerationInputBytes?blob:jpeg(canvas,.84);
+}
 function Modal({name,close,children,wide=false}:{name:string;close:()=>void;children:ReactNode;wide?:boolean}){
  const ref=useRef<HTMLDialogElement>(null);
  useEffect(()=>{const el=ref.current;el?.showModal();return()=>el?.close()},[]);
@@ -67,7 +73,8 @@ export default function Studio(){
  const initialDemo=useRef<DemoSelection|undefined>(undefined);
  const referenceInput=useRef<HTMLInputElement>(null),referenceRevision=useRef(0);
  const [analysis,setAnalysis]=useState<ReturnType<typeof inspect>|null>(null),[adj,setAdj]=useState<Adjust>(defaults),[compare,setCompare]=useState(false),[split,setSplit]=useState(50),[wide,setWide]=useState(false),[drag,setDrag]=useState(false);
- const [dialog,setDialog]=useState<Dialog>(null),[busy,setBusy]=useState(false),[ready,setReady]=useState<boolean|null>(null),[output,setOutput]=useState(''),[notice,setNotice]=useState(''),[jobError,setJobError]=useState(''),[loading,setLoading]=useState(false);
+ const [dialog,setDialog]=useState<Dialog>(null),[busy,setBusy]=useState(false),[ready,setReady]=useState<boolean|null>(null),[output,setOutput]=useState<AIResult|null>(null),[notice,setNotice]=useState(''),[jobError,setJobError]=useState(''),[loading,setLoading]=useState(false);
+ const [generationPreset,setGenerationPreset]=useState<GenerationPreset>(defaultGenerationPreset);
  const input=useRef<HTMLInputElement>(null),preview=useRef<HTMLCanvasElement>(null),stage=useRef<HTMLElement>(null),version=useRef(0),jobLock=useRef(false),gradeVersion=useRef(0),dragDepth=useRef(0),timer=useRef<ReturnType<typeof setTimeout>|null>(null);
  const selected=recipe.id,preset=!!photo?.sample&&selected==='warm'&&adj.strength===75&&adj.temp===0&&adj.exposure===0;
  const comparisonLut=useMemo(()=>{
@@ -92,7 +99,7 @@ export default function Studio(){
    if(cameraLook){setRecipe(cameraLook.recipe);setAdj(cameraLook.adjustment);}
    setBaseUrl(file?small.toDataURL('image/jpeg',.94):url);
    setPhoto({canvas,small,width:img.naturalWidth,height:img.naturalHeight,file:file?.name??(demo?demo.look.id+'.webp':'ALPINE_001.JPG'),sample:!file&&!demo,sourceOnly:startOriginal,demo});
-   setAnalysis(m);setCompare(false);setSplit(50);setOutput('');setJobError('');
+   setAnalysis(m);setCompare(false);setSplit(50);setOutput(null);setJobError('');
    if(file||demo){
      setStudioOpened(true);
      setTab('studio');
@@ -192,7 +199,7 @@ export default function Studio(){
      gradeVersion.current++;
      setRecipe(demo?.look??top.look);
      setAdj({...defaults,strength:demo?.sample.strength??(photo.sourceOnly&&!reference&&!pinned?0:top.strength)});
-     setOutput('');setJobError('');
+     setOutput(null);setJobError('');
    };
 
    setRanking(true);
@@ -219,10 +226,10 @@ export default function Studio(){
  },[photo,reference,bankReady,personal,mode,pinned,studioOpened]);
  useEffect(()=>{if(!photo||tab!=='studio')return;const frame=requestAnimationFrame(()=>{if(preview.current)grade(photo.small,preview.current,recipe,adj)});return()=>cancelAnimationFrame(frame)},[photo,recipe,adj,tab,wide]);
  useEffect(()=>{if(!wide)return;const handler=(e:KeyboardEvent)=>{if(e.key==='Escape')setWide(false)};window.addEventListener('keydown',handler);const old=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{window.removeEventListener('keydown',handler);document.body.style.overflow=old}},[wide]);
- const change=(patch:Partial<Adjust>)=>{manualLook.current=true;gradeVersion.current++;setAdj(a=>({...a,...patch}));setOutput('');setJobError('');};
+ const change=(patch:Partial<Adjust>)=>{manualLook.current=true;gradeVersion.current++;setAdj(a=>({...a,...patch}));setOutput(null);setJobError('');};
  const pick=(r:Recipe,strength=defaults.strength)=>{
    manualLook.current=true;gradeVersion.current++;
-   setRecipe(r);setAdj({...defaults,strength});setOutput('');setJobError('');
+   setRecipe(r);setAdj({...defaults,strength});setOutput(null);setJobError('');
    go('studio');
    if(window.matchMedia('(max-width: 800px)').matches)window.scrollTo(0,0);
  };
@@ -295,15 +302,45 @@ export default function Studio(){
    setPinned(null);setMode('source');
  };
  const openAI=()=>{if(ready===false)setReady(null);setJobError('');setPair(output?'lut-ai':'original-lut');setDialog('generation');};
- const generate=async()=>{if(!photo||!ready||jobLock.current)return;jobLock.current=true;setBusy(true);setJobError('');const rev=gradeVersion.current;
-  try{const src=canvasOf(photo.canvas,photo.canvas.width,photo.canvas.height,1536),reference=document.createElement('canvas');grade(src,reference,recipe,adj);
-    const body=new FormData();body.append('original',await jpeg(src),'original.jpg');body.append('reference',await jpeg(reference),'reference.jpg');body.append('recipe',recipe.id);body.append('adjust',JSON.stringify(adj));
-    body.append('width',String(src.width));body.append('height',String(src.height));
-    const resp=await fetch('/api/generate',{method:'POST',body});const obj=await resp.json().catch(()=>null) as {image?:string;error?:string}|null;
+ const generate=async()=>{
+  if(!photo||!ready||jobLock.current)return;
+  jobLock.current=true;setBusy(true);setJobError('');
+  const rev=gradeVersion.current;
+  const settings=generationPresets[generationPreset];
+  try{
+    const src=canvasOf(photo.canvas,photo.canvas.width,photo.canvas.height,settings.inputEdge);
+    const reference=document.createElement('canvas');
+    grade(src,reference,recipe,adj);
+    const [originalJpeg,referenceJpeg]=await Promise.all([generationJpeg(src),generationJpeg(reference)]);
+    if(rev!==gradeVersion.current)return;
+    const body=new FormData();
+    body.append('original',originalJpeg,'original.jpg');body.append('reference',referenceJpeg,'reference.jpg');
+    body.append('recipe',recipe.id);body.append('adjust',JSON.stringify(adj));body.append('preset',generationPreset);
+    body.append('width',String(photo.width));body.append('height',String(photo.height));
+    const resp=await fetch('/api/generate',{method:'POST',body});
+    const obj=await resp.json().catch(()=>null) as {image?:string;requestedSize?:string;error?:string}|null;
     if(!resp.ok||!obj?.image)throw Error(obj?.error||'生成连接中断，请检查网络后重试。');
-    if(rev===gradeVersion.current){setOutput(obj.image);setPair('lut-ai');}else say('影调已更改，请按当前设置重新生成。');
-  }catch(e){if(rev===gradeVersion.current)setJobError(e instanceof TypeError?'生成连接中断，请检查网络后重试。':(e as Error).message||'生成失败，请重试。')}finally{setBusy(false);jobLock.current=false;}
+    const image=await readImage(obj.image);
+    if(rev===gradeVersion.current){
+      setOutput({url:obj.image,width:image.naturalWidth,height:image.naturalHeight,requestedSize:obj.requestedSize,modelLabel:settings.modelLabel});
+      setPair('lut-ai');
+    }else say('影调已更改，请按当前设置重新生成。');
+  }catch(e){
+    if(rev===gradeVersion.current)setJobError(e instanceof TypeError?'生成连接中断，请检查网络后重试。':(e as Error).message||'生成失败，请重试。');
+  }finally{setBusy(false);jobLock.current=false;}
  };
+ const showAISample=async()=>{
+   const rev=gradeVersion.current;
+   try{
+     const url='/alpine-edited.jpg';
+     const image=await readImage(url);
+     if(rev!==gradeVersion.current||jobLock.current)return;
+     setOutput({url,width:image.naturalWidth,height:image.naturalHeight});setPair('lut-ai');
+   }catch{say('样片加载失败，请重试。');}
+ };
+ const actualSize=output&&`${output.width} × ${output.height}`;
+ const resizedOutput=output?.requestedSize&&output.requestedSize!==`${output.width}x${output.height}`;
+ const plannedSize=photo?generationSize(photo.width,photo.height,generationPreset).replace('x',' × '):'';
  const label=photo?.demo?.sample.title??(photo?.sample!==false?'Alpine Reverie':photo.file.replace(/\.[^.]+$/,''));
  const filterCard=(option:Recommendation,idx:number)=>{
    const r=option.look;
@@ -424,17 +461,32 @@ export default function Studio(){
     <div className="generation-pair">
       {pair!=='lut-ai'&&<figure><img src={baseUrl} alt="原图"/><figcaption>原图</figcaption></figure>}
       {pair!=='original-ai'&&<figure><img src={comparisonLut} alt="LUT 应用图"/><figcaption>LUT 应用图</figcaption></figure>}
-      {pair!=='original-lut'&&output&&<figure><img src={output} alt="AI Image Gen 成片"/><figcaption>AI Image Gen 成片</figcaption></figure>}
+      {pair!=='original-lut'&&output&&<figure><img src={output.url} alt="AI 成片"/><figcaption>{output.modelLabel?'请求 '+output.modelLabel:'AI 样片'} · {actualSize} px</figcaption></figure>}
     </div>
     <div className="dual"><button className="secondary" onClick={exportPhoto}><Download size={16}/>下载 LUT 应用图</button>
       <button className="secondary" onClick={exportLook}><Download size={16}/>下载 33³ LUT</button>
-      {output&&<button className="secondary" onClick={async()=>{try{const r=await fetch(output);if(!r.ok)throw Error();const image=await r.blob();const extension=image.type==='image/png'?'png':image.type==='image/webp'?'webp':'jpg';saveBlob(image,'Luma-AI-'+recipe.id+'.'+extension);say('AI 成片已导出')}catch{say('下载失败，请重试。')}}}><Download size={16}/>下载 AI 成片</button>}
+      {output&&<button className="secondary" onClick={async()=>{try{const r=await fetch(output.url);if(!r.ok)throw Error();const image=await r.blob();const extension=image.type==='image/png'?'png':image.type==='image/webp'?'webp':'jpg';saveBlob(image,'Luma-AI-'+recipe.id+'-'+output.width+'x'+output.height+'.'+extension);say('AI 成片已导出')}catch{say('下载失败，请重试。')}}}><Download size={16}/>下载 AI 成片</button>}
     </div>
-    {!output&&<>
-      {preset&&<button className="text-btn" onClick={()=>{setOutput('/alpine-edited.jpg');setPair('lut-ai');}}>查看这套配方的 AI 样片</button>}
-      {ready===null?<p role="status">正在检查 AI 生成服务…</p>:ready?<><p>确认后，原图和 LUT 应用图将发送至 Pikso 生成 AI 成片。本次生成由工作台的 Pikso 账户结算。</p><button className="primary" disabled={busy} onClick={generate}><Sparkles className={busy?'working-icon':undefined} size={16}/>{busy?'正在生成光影…':'确认并生成 AI 成片'}</button>{busy&&<p role="status" className="generation-progress">正在创作，通常需要 30–60 秒。请保持页面开启。</p>}</>:
-      <p className="service-info">AI 生成暂不可用。你仍可预览和下载 LUT 应用图。</p>}
-    </>}
+    {resizedOutput&&<p className="service-info">Pikso 返回 {actualSize} px，目标尺寸为 {output.requestedSize?.replace('x',' × ')} px。</p>}
+    {!output&&preset&&<button className="text-btn" disabled={busy} onClick={showAISample}>查看这套配方的 AI 样片</button>}
+    {ready===null?<p role="status">正在检查 AI 生成服务…</p>:ready?<>
+      <fieldset className="generation-quality" disabled={busy}>
+        <legend>AI 成片规格</legend>
+        <div className="generation-options">
+          {(Object.keys(generationPresets) as GenerationPreset[]).map(id=>{
+            const option=generationPresets[id];
+            return <label key={id} className="generation-option">
+              <input type="radio" name="generation-preset" value={id} checked={generationPreset===id} onChange={()=>{setGenerationPreset(id);setJobError('');}}/>
+              <span><strong>{option.label}</strong><small>{option.modelLabel}</small></span>
+            </label>;
+          })}
+        </div>
+        <p className="generation-dimensions">目标尺寸 {plannedSize} px，实际尺寸以 Pikso 返回为准。</p>
+      </fieldset>
+      <p>确认后，原图和 LUT 应用图将发送至 Pikso。本次生成由工作台的 Pikso 账户结算。</p>
+      <button className="primary" disabled={busy||!photo} onClick={generate}><Sparkles className={busy?'working-icon':undefined} size={16}/>{busy?'正在生成光影…':output?'按当前规格重新生成':'确认并生成 AI 成片'}</button>
+      {busy&&<p role="status" className="generation-progress">Pikso 正在处理照片。高清成片可能需要几分钟，请保持页面开启。</p>}
+    </>:<p className="service-info">AI 生成暂不可用。你仍可预览和下载 LUT 应用图。</p>}
     <details><summary>查看光影指令</summary><p className="prompt">{editingPrompt(recipe,adj)}</p></details>
     {jobError&&<p role="alert" className="error">{jobError}</p>}
   </div></Modal>}

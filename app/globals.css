@@ -360,3 +360,30 @@ dialog { overscroll-behavior: contain; }
   .tone-matrix-end button { flex-direction: row; gap: 6px; }
   .page-heading h1 em { display: none; }
 }
+
+.generation-quality {
+  min-width: 0;
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+.generation-quality legend { margin-bottom: 8px; font-size: .875rem; font-weight: 600; }
+.generation-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.generation-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  min-height: 56px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.generation-option:has(:checked) { border-color: #aebdf2; background: #aebdf216; }
+.generation-option:focus-within { outline: 2px solid #aebdf2; outline-offset: 2px; }
+.generation-option input { flex: none; accent-color: #aebdf2; }
+.generation-option strong, .generation-option small { display: block; }
+.generation-option strong { font-size: .875rem; }
+.generation-option small { margin-top: 2px; color: var(--muted); font-size: .8rem; }
+.generation-quality:disabled .generation-option { cursor: wait; }
+.generation .generation-dimensions { font-variant-numeric: tabular-nums; margin-bottom: 0; }

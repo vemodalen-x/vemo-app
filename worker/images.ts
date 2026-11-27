@@ -1,15 +1,14 @@
 import { adaptiveRecipe, recipes, editingPrompt, type Adjust } from '../app/film';
+import { generationPresets, generationSize, isGenerationPreset, maxGenerationInputBytes } from '../app/generation-settings';
 
 const PIKSO_EDIT_URL = 'https://service.pikso.art/v1/images/edits';
-const PIKSO_MODEL = 'gpt-image-2';
-const MAX_FILE_BYTES = 5 * 1024 * 1024;
-const MAX_BODY_BYTES = 2 * MAX_FILE_BYTES + 64 * 1024;
-const PIKSO_TIMEOUT_MS = 150_000;
+const MAX_BODY_BYTES = 2 * maxGenerationInputBytes + 64 * 1024;
+const PIKSO_TIMEOUT_MS = 180_000;
 const reply = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { 'Cache-Control': 'private, no-store' } });
 
 function isPhoto(value: FormDataEntryValue | null): value is File {
-  return value instanceof File && value.type === 'image/jpeg' && value.size > 0 && value.size <= MAX_FILE_BYTES;
+  return value instanceof File && value.type === 'image/jpeg' && value.size > 0 && value.size <= maxGenerationInputBytes;
 }
 
 function validAdjustment(value: Adjust | null): value is Adjust {
@@ -17,18 +16,6 @@ function validAdjustment(value: Adjust | null): value is Adjust {
     && Number.isFinite(value.strength) && value.strength >= 0 && value.strength <= 100
     && Number.isFinite(value.temp) && Math.abs(value.temp) <= 100
     && Number.isFinite(value.exposure) && Math.abs(value.exposure) <= 1;
-}
-
-function outputSize(form: FormData) {
-  const width = Number(form.get('width'));
-  const height = Number(form.get('height'));
-  if (!Number.isSafeInteger(width) || !Number.isSafeInteger(height) || width < 1 || height < 1) return '1536x1024';
-
-  // GPT Image 2 accepts multiples of 16 and aspect ratios from 1:3 to 3:1.
-  // A long edge of 1536 also provides enough pixels for the widest ratio.
-  const long = 1536;
-  const short = Math.max(512, Math.round(long * Math.min(width, height) / Math.max(width, height) / 16) * 16);
-  return width >= height ? long + 'x' + short : short + 'x' + long;
 }
 
 function imageDataUrl(encoded: unknown) {
@@ -40,10 +27,13 @@ function imageDataUrl(encoded: unknown) {
   return mime ? 'data:' + mime + ';base64,' + encoded : null;
 }
 
-function providerError(status: number) {
+function providerError(status: number, preset: 'high' | 'standard') {
   if (status === 401 || status === 403) return 'Pikso 账户授权失败，请联系工作台管理员。';
   if (status === 402) return 'Pikso 账户可用额度不足，请联系工作台管理员。';
   if (status === 429) return '生成服务繁忙或已达到使用额度，请稍后重试。';
+  if (preset === 'high' && [400, 404, 422].includes(status)) {
+    return 'Pikso 未接受这次高清请求。可选「标准预览」后再生成。';
+  }
   if (status === 400 || status === 422) return 'Pikso 无法处理这张照片，请更换照片后重试。';
   return 'Pikso 暂时无法完成生成，请稍后重试。';
 }
@@ -78,12 +68,17 @@ export async function images(request: Request, key: string | undefined) {
   if (!recipe || !isPhoto(original) || !isPhoto(reference)) return reply({ error: '请重新选择照片和影调。' }, 400);
   if (!validAdjustment(adjustment)) return reply({ error: '影调参数超出范围。' }, 400);
 
+  const selected = form.get('preset') ?? 'standard';
+  if (!isGenerationPreset(selected)) return reply({ error: '请选择有效的成片规格。' }, 400);
+  const preset = generationPresets[selected];
+  const requestedSize = generationSize(Number(form.get('width')), Number(form.get('height')), selected);
   const body = new FormData();
-  body.set('model', PIKSO_MODEL);
+  body.set('model', preset.model);
   body.set('n', '1');
-  body.set('size', outputSize(form));
+  body.set('size', requestedSize);
   body.set('output_format', 'jpeg');
-  body.set('quality', 'medium');
+  body.set('quality', preset.quality);
+  if (selected === 'high') body.set('output_compression', '92');
   body.set('prompt', editingPrompt(recipe, adjustment));
   body.append('image[]', original, 'original.jpg');
   body.append('image[]', reference, 'reference.jpg');
@@ -99,12 +94,13 @@ export async function images(request: Request, key: string | undefined) {
     });
     if (!response.ok) {
       await response.body?.cancel();
-      return reply({ error: providerError(response.status) }, 502);
+      console.warn('Pikso rejected edit', response.status, preset.model, requestedSize);
+      return reply({ error: providerError(response.status, selected) }, 502);
     }
     const payload = await response.json() as { data?: { b64_json?: string }[] };
     const image = imageDataUrl(payload.data?.[0]?.b64_json);
     if (!image) return reply({ error: 'Pikso 没有返回可显示的成片。' }, 502);
-    return reply({ image });
+    return reply({ image, model: preset.model, requestedSize });
   } catch (error) {
     const failure = error instanceof Error ? error : new Error(String(error));
     console.error('Pikso request failed', failure.name, failure.message.replaceAll(key, '[redacted]'));

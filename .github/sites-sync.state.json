@@ -8,7 +8,8 @@
   "app/chatgpt-auth.ts": "4265a2e7c2dcb3a6f4b7026f762bf5b6e4caec76cc13c0a45987ee9a9f2e42cc",
   "app/film.ts": "dbe7d5a8018737d7af9bfe2ed6b9504db807b2871d85061fc6eb5ce912dd7d3a",
   "app/gallery.tsx": "881352acac5530a6642f3a4adbd68c0b080a6f9d6bc9481f4c518f9fce35daf9",
-  "app/globals.css": "a00b91754529dfbe5b56d1f48a457a07bd7a6c13871e5c3fb701ca3d67ce4811",
+  "app/generation-settings.ts": "962f1faff6a1f11860c35ea01c9962afb42a720c95af1dbc208f18cdee4c62cf",
+  "app/globals.css": "c09cfa82d79245270fad612be44e4f078448d69b9fc232a21c8fcb6f4334c985",
   "app/inspiration-library.tsx": "a73f87fb33694b88e2fdaa14a9cd693003ea467075379754221552f6bcaa66a9",
   "app/layout.tsx": "a1da5d3fb3d05132eb8f965766538bac853598dd9a0eedcc7b0810afe197306b",
   "app/look-gallery.css": "5ea5853908bbbe3db7b7c15bc436d1104181390c608c24e9ee8abca87171eebe",
@@ -28,7 +29,7 @@
   "app/luts/resolve-recommendations.ts": "cb8b663fa4d1198123f7c3b5718d5e38f7a4d18aaa259d8bd935c19e562bdfdb",
   "app/luts/sample-tones.json": "c4645ba83bb7e5511a68b1bea4c30ff8a84abfc53790585088cd3738042290f0",
   "app/luts/tones.ts": "877312a7b57d1afbbb64c6f66f180bb7125e4b8cad5d2b851b61e08644a31322",
-  "app/page.tsx": "6b6b5c77705d988be8b202c712fb3457a180d215666ff9cc6a30b0757d0633b5",
+  "app/page.tsx": "67c78ce84cb43969a3350044d55791d9eedad275e01cc06df34488d45268944f",
   "app/photo-file.ts": "0fb2a36eda6959c3f222f94164b9f006b984ab5a3cdbf388f59b6c00951c17c0",
   "app/pixels.ts": "dff95981dac276c358f2fa0a2c0d98f98a0820346cc1db7ae68e60781de0d9b7",
   "app/scenes.json": "92b641b4e513af93b7439da6f2d473d3c9ebd7a0d6fe50d594c797fc9ab2bb50",
@@ -689,6 +690,6 @@
   "vendor/shadcn-tailwind-4.13.0.LICENSE.md": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
   "vendor/shadcn-tailwind-4.13.0.css": "bc7d83425702955b4cb67cb14ede9d603f9d912376d57a2d81d661094d2a782a",
   "vite.config.ts": "0b0d03026b8023b6c7d9bd3af7c4dc56d133b92e08868270e50e3cf5ea4bab2a",
-  "worker/images.ts": "21e255787c4e6e7cd8dbe8961b95a79c8919ba4017f9d1617604e595e8bc8c7e",
+  "worker/images.ts": "51d8f5fdde315670cf0c68dab4cb860f09897a78c151e8247b7813f10d0fa30f",
   "worker/index.ts": "b925cda423c596d39d9fc68e65ab7aa164ad62cec3303bc90d0ff8729df6712c"
 }
